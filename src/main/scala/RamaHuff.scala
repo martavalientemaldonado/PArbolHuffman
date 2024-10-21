@@ -1,0 +1,1 @@
+case class RamaHuff(nodoIzq : NodoHuff, nodoDch : NodoHuff)

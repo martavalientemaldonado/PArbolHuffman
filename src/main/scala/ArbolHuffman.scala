@@ -24,9 +24,11 @@ sealed trait ArbolHuffman{
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman
 case class RamaHuff(nodoIzq : ArbolHuffman, nodoDch : ArbolHuffman) extends ArbolHuffman
 
-object miPrograma extends App
+object miPrograma extends App{
   val miArbol = RamaHuff(RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2)), RamaHuff(HojaHuff('O', 3), HojaHuff('S', 4)))
-  val sec = miArbol.peso
+  val weight = miArbol.peso
+  val sec = miArbol.decodificar(List("0100111110011011110010"))
 
-  println(s"Peso: $sec")
-
+  println(s"Peso: $weight")
+  println(s"Cadena: $sec")
+}

@@ -15,6 +15,9 @@ case class RamaHuff(nodoIzq : HojaHuff, nodoDch : HojaHuff, chars : List[Char], 
     def decodificarAux(bits : List[Bit], acc : String) : String = this match
       case HojaHuff(char, peso) if bits.isEmpty => acc
       case HojaHuff(char, peso) => decodificarAux(bits, acc)
+      case RamaHuff(nodoIzq, nodoDch, chars, peso) if bits.head == 0 => decodificarAux(bits.tail, nodoIzq)
+      case RamaHuff(nodoIzq, nodoDch, chars, peso) => decodificarAux(bits.tail, nodoDch)
+
 
 def codificar(cadena : String) : List[Bit]
 

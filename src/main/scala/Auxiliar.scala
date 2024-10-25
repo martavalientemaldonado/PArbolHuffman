@@ -1,4 +1,5 @@
-class codificarYDecodificar
+class Auxiliar
+
   type Bit = 0 | 1
   
   def cadenaAListaChars(cadena : String) : List[Char] = cadena.toList
@@ -9,5 +10,3 @@ class codificarYDecodificar
       case head :: tail => listaCharsACadenaAux(listaCar, acc + head)
       
     listaCharsACadenaAux(listaCar, " ")
-
-  

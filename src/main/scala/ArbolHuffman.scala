@@ -27,7 +27,7 @@ case class RamaHuff(nodoIzq : ArbolHuffman, nodoDch : ArbolHuffman) extends Arbo
 object miPrograma extends App{
   val miArbol = RamaHuff(RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2)), RamaHuff(HojaHuff('O', 3), HojaHuff('S', 4)))
   val weight = miArbol.peso
-  val sec = miArbol.decodificar(List("0100111110011011110010"))
+  val sec = miArbol.decodificar(List(0,1,0,0,1,1,1,1,1,0,0,1,1,0,1,1,1,1,0,0,1,0))
 
   println(s"Peso: $weight")
   println(s"Cadena: $sec")

@@ -9,4 +9,4 @@ case class RamaHuff(nodoIzq : HojaHuff, nodoDch : HojaHuff, chars : List[Char], 
 
   def caracteres() : List[Char] = this match
     case RamaHuff(nodoIzq, nodoDch, chars, peso) => chars
-    case HojaHuff(char, peso) => char
+    case HojaHuff(char, peso) => 

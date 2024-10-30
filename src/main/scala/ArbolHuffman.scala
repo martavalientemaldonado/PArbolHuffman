@@ -63,9 +63,9 @@ sealed trait ArbolHuffman{
     // Ordenar las hojas por peso. No se si vale usar sortBy
     hojas.sortBy(_.weight)
 
-  /*def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff
+  def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff = RamaHuff(izq, dch)
 
-  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
+  /*def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
 
   def esListaSingleton(lista : List[ArbolHuffman]) : Boolean
 

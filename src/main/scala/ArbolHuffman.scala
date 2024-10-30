@@ -64,10 +64,13 @@ sealed trait ArbolHuffman{
 
   def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff = RamaHuff(izq, dch)
 
-  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman] =
-    if (esListaSingleton(nodos) == true) then nodos
-    else
-      val listaOrdenada = listaCharsADistFrec(nodos)
+  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman] = this match
+    case Nil => nodos // Vacía devuelve la lista como esta
+    case head :: Nil => nodos // 1 elemento devuelve lista como esta
+    case head :: segundo :: tail =>
+      //  Extraemos dos primeros elementos
+      //  Los combinamos en RamaHuff
+      val nuevoArbol = RamaHuff(head, segundo)
 
   def esListaSingleton(lista : List[ArbolHuffman]) : Boolean =
     if lista.length == 1 then true

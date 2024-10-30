@@ -48,28 +48,28 @@ sealed trait ArbolHuffman{
       case head :: tail => 
         val nuevaFrecuencia = actualizarFrecuencia(head, frecuencia)
         listaCharsADistFrecAux(listaChar, nuevaFrecuencia)
-        
-    //Funcion para actualizar la frecuencia de un caracter    
+
+    //Funcion para actualizar la frecuencia de un caracter
     def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]) : List[(Char, Int)] = frecuencia match
       case Nil => List((char,1))
       case (c, f) :: tail if c == char => (c, f + 1) :: tail
       case head :: tail => head :: actualizarFrecuencia(char, tail)
       
-    listaCharsADistFrecAux(listaChar, Nil)  
-      
+    listaCharsADistFrecAux(listaChar, Nil)
+
       
   def distribFrecAListaHojas(frecuencias: List[(Char, Int)]): List[HojaHuff] =
     val hojas = frecuencias.map { case (char, weight) => HojaHuff(char, weight) } // Tuplas (char, Int) a hojas
     // Ordenar las hojas por peso. No se si vale usar sortBy
     hojas.sortBy(_.weight)
 
-  def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff
+  /*def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff
 
   def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
 
   def esListaSingleton(lista : List[ArbolHuffman]) : Boolean
 
-  def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]
+  def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]*/
 
   /*def crearArbolHuffman(cadena : String): ArbolHuffman = caracteres match
     case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")
@@ -82,16 +82,16 @@ case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman
 case class RamaHuff(nodoIzq : ArbolHuffman, nodoDch : ArbolHuffman) extends ArbolHuffman
 
 object miPrograma extends App{
-  val miArbol = RamaHuff(RamaHuff(HojaHuff('S', 4), HojaHuff('O', 3)), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2)))
+  val miArbol = RamaHuff(HojaHuff('S', 4), RamaHuff(HojaHuff('O', 3), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2))))
   val weight = miArbol.peso
-  val sec = miArbol.decodificar(List(1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0))
-  val cod = miArbol.codificar("ESE OSO SOS")
+  val sec = miArbol.decodificar(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
+  val cod = miArbol.codificar("SOS ESE OSO")
   
   val lista = List('a', 'b', 'c', 'd', 'e')
-  val resultado = listaCharsADistFrec(lista)
+  //val resultado = miArbol.listaCharsADistFrec(lista)
 
   println(s"Peso: $weight")
   println(s"Cadena: $sec")
   println(s"Cadena codificada: $cod")
-  println(s"Lista Char A Dist Frec: $resultado")
+  //println(s"Lista Char A Dist Frec: $resultado")
 }

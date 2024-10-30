@@ -65,11 +65,13 @@ sealed trait ArbolHuffman{
 
   def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff = RamaHuff(izq, dch)
 
-  /*def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
+  //def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
 
-  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean
+  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean =
+    if lista.length == 1 then true
+    else false
 
-  def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]*/
+  //def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]
 
   /*def crearArbolHuffman(cadena : String): ArbolHuffman = caracteres match
     case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")

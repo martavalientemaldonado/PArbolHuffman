@@ -82,10 +82,15 @@ sealed trait ArbolHuffman{
       val lista = combinar(listaHojas)
       repetirHasta(combinado, esListaSingleton)(lista)
 
-  /*def crearArbolHuffman(cadena: String): ArbolHuffman = caracteres match
-    case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")
-    case head :: Nil => HojaHuff(caracteres.head, caracteres.head.weight)
-    case head :: tail => crearArbolHuffman(cadena.tail)*/
+  def crearArbolHuffman(cadena: String): ArbolHuffman =
+    val cadenaAChar = cadenaAListaChars(cadena)
+    val listaCharATuplas = listaCharsADistFrec(cadenaAChar)
+    val listaTuplasOrdenada = distribFrecAListaHojas(listaCharATuplas)
+    val combinado = combinar(listaTuplasOrdenada)
+    val esCombinado = esListaSingleton(listaTuplasOrdenada)
+    val arbol = repetirHasta(combinado, esCombinado)(listaTuplasOrdenada) match
+      case List(arbol) = arbol
+
 }
 
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman

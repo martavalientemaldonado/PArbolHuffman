@@ -41,9 +41,24 @@ sealed trait ArbolHuffman{
     case _ if contieneCaracter(char) == false => throw new IllegalArgumentException("Caracter no encontrado")
 
 
-  def ListaCharsADistFrec(listaChar : List[Char]) : List[(Char, Int)]
-
-  def DistribFrecAListaHojas(frecuencias: List[(Char, Int)]): List[HojaHuff] =
+  def listaCharsADistFrec(listaChar : List[Char]) : List[(Char, Int)] =
+    @tailrec
+    def listaCharsADistFrecAux(listaChar : List[Char], frecuencia : List[(Char, Int)]) : List[(Char, Int)] = listaChar match
+      case Nil => frecuencia
+      case head :: tail => 
+        val nuevaFrecuencia = actualizarFrecuencia(head, frecuencia)
+        listaCharsADistFrecAux(listaChar, nuevaFrecuencia)
+        
+    //Funcion para actualizar la frecuencia de un caracter    
+    def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]) : List[(Char, Int)] = frecuencia match
+      case Nil => List((char,1))
+      case (c, f) :: tail if c == char => (c, f + 1) :: tail
+      case head :: tail => head :: actualizarFrecuencia(char, tail)
+      
+    listaCharsADistFrecAux(listaChar, Nil)  
+      
+      
+  def distribFrecAListaHojas(frecuencias: List[(Char, Int)]): List[HojaHuff] =
     val hojas = frecuencias.map { case (char, weight) => HojaHuff(char, weight) } // Tuplas (char, Int) a hojas
     // Ordenar las hojas por peso. No se si vale usar sortBy
     hojas.sortBy(_.weight)
@@ -71,8 +86,12 @@ object miPrograma extends App{
   val weight = miArbol.peso
   val sec = miArbol.decodificar(List(1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0))
   val cod = miArbol.codificar("ESE OSO SOS")
+  
+  val lista = List('a', 'b', 'c', 'd', 'e')
+  val resultado = listaCharsADistFrec(lista)
 
   println(s"Peso: $weight")
   println(s"Cadena: $sec")
   println(s"Cadena codificada: $cod")
+  println(s"Lista Char A Dist Frec: $resultado")
 }

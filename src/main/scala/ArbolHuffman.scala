@@ -40,16 +40,26 @@ sealed trait ArbolHuffman{
       else codificarCaracteres(char, nodoDch, lista :+ 1)
     case _ if contieneCaracter(char) == false => throw new IllegalArgumentException("Caracter no encontrado")
 
+
+  def ListaCharsADistFrec(listaChar : List[Char]) : List[(Char, Int)]
+
   def DistribFrecAListaHojas(frecuencias: List[(Char, Int)]): List[HojaHuff] =
     val hojas = frecuencias.map { case (char, weight) => HojaHuff(char, weight) } // Tuplas (char, Int) a hojas
     // Ordenar las hojas por peso. No se si vale usar sortBy
     hojas.sortBy(_.weight)
-  
 
-  def creaeArbolHuffman(cadena : String): ArbolHuffman = caracteres match
+  def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff
+
+  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
+
+  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean
+
+  def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]
+
+  /*def crearArbolHuffman(cadena : String): ArbolHuffman = caracteres match
     case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")
     case head:: Nil => HojaHuff(caracteres.head, caracteres.head.weight )
-    case head :: tail => creaeArbolHuffman(cadena.tail)
+    case head :: tail => crearArbolHuffman(cadena.tail)*/
 
 }
 

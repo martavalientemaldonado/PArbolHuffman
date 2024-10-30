@@ -65,7 +65,10 @@ sealed trait ArbolHuffman{
 
   def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff = RamaHuff(izq, dch)
 
-  //def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman]
+  /*def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman] =
+    if (esListaSingleton(nodos) == true) then nodos
+    else
+      val listaOrdenada = listaCharsADistFrec(nodos)*/
 
   def esListaSingleton(lista : List[ArbolHuffman]) : Boolean =
     if lista.length == 1 then true
@@ -73,10 +76,10 @@ sealed trait ArbolHuffman{
 
   //def repetirHasta(combinar : List[ArbolHuffman], esListaSingleton : Boolean) : List[HojaHuff]
 
-  /*def crearArbolHuffman(cadena : String): ArbolHuffman = caracteres match
+  def crearArbolHuffman(cadena : String): ArbolHuffman = caracteres match
     case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")
     case head:: Nil => HojaHuff(caracteres.head, caracteres.head.weight )
-    case head :: tail => crearArbolHuffman(cadena.tail)*/
+    case head :: tail => crearArbolHuffman(cadena.tail)
 
 }
 

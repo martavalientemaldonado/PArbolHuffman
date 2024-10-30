@@ -89,9 +89,12 @@ object miPrograma extends App{
   
   val lista = List('a', 'b', 'c', 'd', 'e')
   //val resultado = miArbol.listaCharsADistFrec(lista)
+  val probarDistrib = List(('O', 5), ('E', 2))
+  val res = miArbol.distribFrecAListaHojas(probarDistrib)
 
   println(s"Peso: $weight")
   println(s"Cadena: $sec")
   println(s"Cadena codificada: $cod")
   //println(s"Lista Char A Dist Frec: $resultado")
+  println(s"Probar funcion Distrib: $res")
 }

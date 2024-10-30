@@ -19,7 +19,7 @@ sealed trait ArbolHuffman{
       case (HojaHuff(char, weight), Nil) => acc + char
       case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char)
       case (RamaHuff(nodoIzq, nodoDch), 0 :: restoBits) => decodificarAux(nodoIzq, restoBits, acc)
-      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc)
+      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc) 
       case _ => acc
 
     decodificarAux(this, bits, " ")
@@ -39,6 +39,18 @@ sealed trait ArbolHuffman{
       if (nodoIzq.contieneCaracter(char)) codificarCaracteres(char, nodoIzq, lista :+ 0)
       else codificarCaracteres(char, nodoDch, lista :+ 1)
     case _ if contieneCaracter(char) == false => throw new IllegalArgumentException("Caracter no encontrado")
+
+  def DistribFrecAListaHojas(frecuencias: List[(Char, Int)]): List[HojaHuff] =
+    val hojas = frecuencias.map { case (char, weight) => HojaHuff(char, weight) } // Tuplas (char, Int) a hojas
+    // Ordenar las hojas por peso. No se si vale usar sortBy
+    hojas.sortBy(_.weight)
+  
+
+  def creaeArbolHuffman(cadena : String): ArbolHuffman = caracteres match
+    case Nil => throw new Exception("No se crea el arbol porque la lista de caracteres está vacía")
+    case head:: Nil => HojaHuff(caracteres.head, caracteres.head.weight )
+    case head :: tail => creaeArbolHuffman(cadena.tail)
+
 }
 
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman

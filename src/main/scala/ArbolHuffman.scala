@@ -72,7 +72,9 @@ sealed trait ArbolHuffman{
       val nuevoArbol = RamaHuff(head, segundo)
       (nuevoArbol :: tail).sortBy(_.peso)
 
-  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean = lista.length == 1
+  def esListaSingleton(l : List[ArbolHuffman]) : Boolean = l match
+    case head:: Nil => true
+    case _ => false
 
   def repetirHasta(combinar : List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton : List[ArbolHuffman] => Boolean)(listaHojas : List[ArbolHuffman]) : List[ArbolHuffman] =
     if esListaSingleton(listaHojas) then listaHojas

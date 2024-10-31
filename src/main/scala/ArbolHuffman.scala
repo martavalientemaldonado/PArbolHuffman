@@ -64,32 +64,38 @@ sealed trait ArbolHuffman{
 
   def creaRamaHuff(izq : ArbolHuffman, dch : ArbolHuffman) : RamaHuff = RamaHuff(izq, dch)
 
-  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman] = this match
+  def combinar(nodos : List[ArbolHuffman]) : List[ArbolHuffman] = nodos match
     case _ => nodos // Vacía devuelve la lista como esta
     case head :: Nil => nodos
     case head :: segundo :: tail =>  //  Extraemos dos primeros elementos
       //  Los combinamos en RamaHuff
       val nuevoArbol = RamaHuff(head, segundo)
-      nuevoArbol.distribFrecAListaHojas(nodos)
+      (nuevoArbol :: tail).sortBy(_.peso)
 
-  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean =
-    if lista.length == 1 then true
-    else false
+  def esListaSingleton(lista : List[ArbolHuffman]) : Boolean = lista.length == 1
 
-  def repetirHasta(combinar : List[ArbolHuffman] => List[ArbolHuffman], esListaSingleton : List[ArbolHuffman] => Boolean)(listaHojas : List[ArbolHuffman]) : List[ArbolHuffman] =
+  def repetirHasta(combinar : List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton : List[ArbolHuffman] => Boolean)(listaHojas : List[ArbolHuffman]) : List[ArbolHuffman] =
     if esListaSingleton(listaHojas) then listaHojas
     else
-      repetirHasta(combinar, esListaSingleton)(combinar(listaHojas))
+      val nuevaLista = combinar(listaHojas)
+      repetirHasta(combinar)(esListaSingleton)(nuevaLista)
 
   def crearArbolHuffman(cadena: String): ArbolHuffman =
     val cadenaAChar = cadenaAListaChars(cadena)
     val listaCharATuplas = listaCharsADistFrec(cadenaAChar)
     val listaTuplasOrdenada = distribFrecAListaHojas(listaCharATuplas)
-    repetirHasta(combinar, esListaSingleton)(listaTuplasOrdenada).head
+    repetirHasta(combinar)(esListaSingleton)(listaTuplasOrdenada).head
 }
 
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman
 case class RamaHuff(nodoIzq : ArbolHuffman, nodoDch : ArbolHuffman) extends ArbolHuffman
+
+/*object ArbolHuffman{
+  def apply (cadena : String) : ArbolHuffman =
+    new ArbolHuffman {
+      override def crearArbolHuffman(cadena: String): ArbolHuffman = super.crearArbolHuffman(cadena)
+    } crearArbolHuffman(cadena)
+}*/
 
 object miPrograma extends App{
   val miArbol = RamaHuff(HojaHuff('S', 4), RamaHuff(HojaHuff('O', 3), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2))))
@@ -101,10 +107,15 @@ object miPrograma extends App{
   val resultado = miArbol.listaCharsADistFrec(lista)
   val probarDistrib = List(('O', 5), ('E', 2))
   val res = miArbol.distribFrecAListaHojas(probarDistrib)
+  val listaHojas : List[ArbolHuffman] = List(HojaHuff('A', 5), HojaHuff('B', 2))
+  val arbolFinal = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(listaHojas)
+
+  //val crearMiArbol = ArbolHuffman("SOS ESE OSO")
 
   println(s"Peso: $weight")
   println(s"Cadena: $sec")
   println(s"Cadena codificada: $cod")
   println(s"Lista Char A Dist Frec: $resultado")
   println(s"Probar funcion Distrib: $res")
+  println(s"Probar repetirHasta: $arbolFinal")
 }

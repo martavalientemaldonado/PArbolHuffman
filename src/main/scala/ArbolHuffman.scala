@@ -86,11 +86,11 @@ sealed trait ArbolHuffman{
 
   // Convertir arbol codificacion en tabla de codificacion
   def deArbolATabla(arbol: ArbolHuffman): TablaCodigos =
-    def deArbolATablaAux(arbol: ArbolHuffman, bits: List[Bit]): TablaCodigos = this match
+    def deArbolATablaAux(arbol: ArbolHuffman, bits: List[Bit]): TablaCodigos = arbol match
       case HojaHuff(char, weight) => List((char, bits))  // Si es hoja crea la lista de tuplas
-      case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1) // Lo hace otra vez cin noco izquierdo añadiendo bit=0 y con la dcha con bit=1
-    deArbolATablaAux(arbol, List.empty[Bit])
+      case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1) // Lo hace otra vez con nodo izquierdo añadiendo bit=0 y con la dcha con bit=1
 
+    deArbolATablaAux(arbol, List.empty[Bit])
 }
 
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman
@@ -194,8 +194,21 @@ object miPrograma extends App{
   println(s"repetirHasta en Lista4: $repetirLista4")
 
   //Crompruebo crearArbolHuffman
-  val crearMiArbol = ArbolHuffman("SOS ESE OSO")
-  println(s"Mi árbol creado: $crearMiArbol")
+  val crearMiArbol1 = ArbolHuffman("SOS ESE OSO")
+  val crearMiArbol2 = ArbolHuffman(" ")
+  val crearMiArbol3 = ArbolHuffman("Arbol Huffman")
+  println(s"Árbol1: $crearMiArbol1")
+  println(s"Árbol2: $crearMiArbol2")
+  println(s"Árbol3: $crearMiArbol3")
+  println(s"Mi árbol1 creado: $crearMiArbol1")
+  println(s"Mi árbol2 creado: $crearMiArbol2")
+  println(s"Mi árbol3 creado: $crearMiArbol3")
 
-
+  //Compruebo deArbolATabla
+  val prueboArbol1 = miArbol.deArbolATabla(crearMiArbol1)
+  val prueboArbol2 = miArbol.deArbolATabla(crearMiArbol2)
+  val prueboArbol3 = miArbol.deArbolATabla(crearMiArbol3)
+  println(s"De Árbol1 a Tabla: $prueboArbol1")
+  println(s"De Árbol2 a Tabla: $prueboArbol2")
+  println(s"De Árbol3 a Tabla: $prueboArbol3")
 }

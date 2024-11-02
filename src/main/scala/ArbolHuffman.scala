@@ -107,6 +107,7 @@ object miPrograma extends App{
 
   //Crea el árbol
   val miArbol = RamaHuff(HojaHuff('S', 4), RamaHuff(HojaHuff('O', 3), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2))))
+  println(s"Mi Árbol: $miArbol")
 
   //Calcula el peso del árbol
   val weight = miArbol.peso
@@ -192,14 +193,22 @@ object miPrograma extends App{
   println(s"repetirHasta en Lista2: $repetirLista2")
   println(s"repetirHasta en Lista3: $repetirLista3")
   println(s"repetirHasta en Lista4: $repetirLista4")
+  val repetir1Singleton = miArbol.esListaSingleton(repetirLista1)
+  val repetir2Singleton = miArbol.esListaSingleton(repetirLista2)
+  val repetir3Singleton = miArbol.esListaSingleton(repetirLista3)
+  val repetir4Singleton = miArbol.esListaSingleton(repetirLista4)
+  println(s"Es listaSingleton1: $repetir1Singleton")
+  println(s"Es listaSingleton2: $repetir2Singleton")
+  println(s"Es listaSingleton3: $repetir3Singleton")
+  println(s"Es listaSingleton4: $repetir4Singleton")
 
   //Crompruebo crearArbolHuffman
   val crearMiArbol1 = ArbolHuffman("SOS ESE OSO")
   val crearMiArbol2 = ArbolHuffman(" ")
   val crearMiArbol3 = ArbolHuffman("Arbol Huffman")
-  println(s"Árbol1: $crearMiArbol1")
-  println(s"Árbol2: $crearMiArbol2")
-  println(s"Árbol3: $crearMiArbol3")
+  println(s"Árbol1: SOS ESE OSO")
+  println(s"Árbol2: ' '")
+  println(s"Árbol3: Arbol Huffman")
   println(s"Mi árbol1 creado: $crearMiArbol1")
   println(s"Mi árbol2 creado: $crearMiArbol2")
   println(s"Mi árbol3 creado: $crearMiArbol3")

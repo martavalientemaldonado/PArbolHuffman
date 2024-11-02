@@ -6,7 +6,7 @@ sealed trait ArbolHuffman{
     case HojaHuff(char, weight) => weight
 
   def caracteres: List[Char] = this match
-    case RamaHuff(nodoIzq, nodoDch) => nodoIzq.caracteres ++ nodoDch.caracteres
+    case RamaHuff(nodoIzq, nodoDch) => nodoIzq.caracteres ++ nodoDch.caracteres // Concatenar
     case HojaHuff(char, weight) => List(char)
 
   def contieneCaracter(char : Char) : Boolean = this match
@@ -16,8 +16,8 @@ sealed trait ArbolHuffman{
   def decodificar(bits: List[Bit]): String =
     @tailrec
     def decodificarAux(arbol: ArbolHuffman, bits: List[Bit], acc: String): String = (arbol, bits) match
-      case (HojaHuff(char, weight), Nil) => acc + char //llega a una hoja donde no hay más bits y añade el char al acc
-      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char) //llega a una hoja con bits restantes, agrega el char al acc y reinicia la decodificacion
+      case (HojaHuff(char, weight), Nil) => acc + char // hoja donde no hay más bits y añade el char al acc
+      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char) //llega a una hoja pero quedan bits, agrega el char al acc y reinicia la decodificacion
       case (RamaHuff(nodoIzq, nodoDch), 0 :: restoBits) => decodificarAux(nodoIzq, restoBits, acc) //si el primer bit es 0 continua por la rama izquierda y llama a la funcion recursivamente
       case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc) //si el primer bit es 1 continua por la rama derecha y llama a la funcion recursivamente
       case _ => acc //detiene la decodificacion y devuelve el acc
@@ -83,6 +83,14 @@ sealed trait ArbolHuffman{
     val listaCharATuplas = listaCharsADistFrec(cadenaAChar) //convierte la lista de caracteres en una lista de tuplas
     val listaTuplasOrdenada = distribFrecAListaHojas(listaCharATuplas) //ordena la lista de tuplas por peso
     repetirHasta(combinar)(esListaSingleton)(listaTuplasOrdenada).head //construye el árbol con las tuplas ordenadas por peso
+
+  // Convertir arbol codificacion en tabla de codificacion
+  def deArbolATabla(arbol: ArbolHuffman): TablaCodigos =
+    def deArbolATablaAux(arbol: ArbolHuffman, bits: List[Bit]): TablaCodigos = this match
+      case HojaHuff(char, weight) => List((char, bits))  // Si es hoja crea la lista de tuplas
+      case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1) // Lo hace otra vez cin noco izquierdo añadiendo bit=0 y con la dcha con bit=1
+    deArbolATablaAux(arbol, List.empty[Bit])
+
 }
 
 case class HojaHuff(char : Char, weight : Int) extends ArbolHuffman
@@ -188,4 +196,6 @@ object miPrograma extends App{
   //Crompruebo crearArbolHuffman
   val crearMiArbol = ArbolHuffman("SOS ESE OSO")
   println(s"Mi árbol creado: $crearMiArbol")
+
+
 }

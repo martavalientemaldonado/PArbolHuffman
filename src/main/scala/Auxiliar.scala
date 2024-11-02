@@ -1,6 +1,7 @@
 class Auxiliar
 
   type Bit = 0 | 1
+  type TablaCodigos = List[(Char, List[Bit])]
   
   def cadenaAListaChars(cadena : String) : List[Char] = cadena.toList
 

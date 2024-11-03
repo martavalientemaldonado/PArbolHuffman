@@ -1,6 +1,6 @@
 import scala.annotation.tailrec
 
-sealed trait ArbolHuffman {
+abstract class ArbolHuffman {
   def peso: Int = this match
     case RamaHuff(nodoIzq, nodoDch) => nodoIzq.peso + nodoDch.peso
     case HojaHuff(char, weight) => weight
@@ -95,158 +95,177 @@ sealed trait ArbolHuffman {
 
   def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
     @tailrec
-    def codificarCaracter(tabla: TablaCodigos, char: Char): List[Bit] = tabla match // Para un caracter
+    def codificarCaracter(tabla: TablaCodigos)(char: Char): List[Bit] = tabla match // Para un caracter
       case Nil => List.empty[Bit] // Devuelve lista vacia de bits
       case (c, bits) :: tail if c == char => bits // Si encuentra ese caracter que devuelva los bits de la tupla
-      case _ :: tail => codificarCaracter(tail, char) // Si no lo encuentra que siga
+      case _ :: tail => codificarCaracter(tail)(char) // Si no lo encuentra que siga
+
     def codificarCadena(cadena: List[Char]): List[Bit] = cadena match // Para toda la cadena
       case Nil => List.empty[Bit] // Si la cadena está vacía devuelve lista vacía de bits3e
       case char :: tail =>
-        val bits = codificarCaracter(tabla, char) // Obtiene los bits del carácter
+        val bits = codificarCaracter(tabla)(char) // Obtiene los bits del carácter
         bits ++ codificarCadena(tail) // Concatena los bits y sigue con la parte de la cadena que queda
+
     codificarCadena(cadena.toList)
 
-  def decodificarTabla(Tabla: TablaCodigos)(bitsDados: List[Bit]): String =
-    def decodificarCaracter(tabla: TablaCodigos, bitsDados: List[Bit]): Char = tabla match {
-      case Nil => throw new NoSuchElementException("No lo hemos encontrado en la tabla")// Si la tabla está vacía, no hay correspondencia
+  def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
+    def decodificarCaracter(tabla: TablaCodigos)(bitsDados: List[Bit]): Char = tabla match 
+      case Nil => throw new NoSuchElementException("La tabla está vacía")// Si la tabla está vacía, no hay correspondencia
       case (c, bits) :: tail if bitsDados == bits => c // Si los bits coinciden, devuelve el carácter
-      case _ :: tail => decodificarCaracter(tail, bitsDados) // Busca en el resto de la tabla
+      case _ :: tail => decodificarCaracter(tail)(bitsDados) // Busca en el resto de la tabla
 
-    def decodificarCadena(bits: List[Bit], acc: String): String = bits match
+    def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit], acc: String): String = bits match
       case Nil => acc // Si no quedan bits devuelve el acumulador
-      case bitsDados :: resto =>
-        val (caracter, numBits) = decodificarCaracter(tabla, bits)
+      case bitsDados :: resto => 
+        val (caracter, numBits) = decodificarCaracter(tabla)(bitsDados)
+        decodificarCadena(tabla)(resto, acc + caracter)
+        
+    decodificarCadena(tabla)(bitsDados, " ")
+}
+
+case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
+
+case class RamaHuff(nodoIzq: ArbolHuffman, nodoDch: ArbolHuffman) extends ArbolHuffman
 
 
-    }
+object ArbolHuffman {
+  def apply(cadena: String): ArbolHuffman =
+    new ArbolHuffman {
+      override def crearArbolHuffman(cadena: String): ArbolHuffman = super.crearArbolHuffman(cadena)
+    } crearArbolHuffman (cadena)
+}
 
-  case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
+object miPrograma extends App {
 
-  case class RamaHuff(nodoIzq: ArbolHuffman, nodoDch: ArbolHuffman) extends ArbolHuffman
+  //Crea el árbol
+  val miArbol = RamaHuff(HojaHuff('S', 4), RamaHuff(HojaHuff('O', 3), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2))))
+  println(s"Mi Árbol: $miArbol")
 
-  object ArbolHuffman {
-    def apply(cadena: String): ArbolHuffman =
-      new ArbolHuffman {
-        override def crearArbolHuffman(cadena: String): ArbolHuffman = super.crearArbolHuffman(cadena)
-      } crearArbolHuffman (cadena)
-  }
+  //Calcula el peso del árbol
+  val weight = miArbol.peso
+  println(s"Peso: $weight")
 
-  object miPrograma extends App {
+  //Cojo los caracteres del árbol
+  val caracter = miArbol.caracteres
+  println(s"Caracteres: $caracter")
 
-    //Crea el árbol
-    val miArbol = RamaHuff(HojaHuff('S', 4), RamaHuff(HojaHuff('O', 3), RamaHuff(HojaHuff('E', 2), HojaHuff(' ', 2))))
-    println(s"Mi Árbol: $miArbol")
+  //Decodifica la lista
+  val sec = miArbol.decodificar(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
+  println(s"Cadena decodificada: $sec")
 
-    //Calcula el peso del árbol
-    val weight = miArbol.peso
-    println(s"Peso: $weight")
+  //Codifica la cadena
+  val cod = miArbol.codificar("SOS ESE OSO")
+  println(s"Cadena codificada: $cod")
 
-    //Cojo los caracteres del árbol
-    val caracter = miArbol.caracteres
-    println(s"Caracteres: $caracter")
+  //Crea una lista de prueba
+  val lista1 = List('a', 'b', 'c', 'd', 'e')
+  val lista2 = List()
+  val lista3 = List('a', 'b', 'a', 'c', 'a', 'a', 'd', 'e', 'b', 'c', 'a', 'b')
+  val lista4 = List('a', 'b')
+  println(s"Lista1: $lista1")
+  println(s"Lista2: $lista2")
+  println(s"Lista3: $lista3")
+  println(s"Lista4: $lista4")
 
-    //Decodifica la lista
-    val sec = miArbol.decodificar(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
-    println(s"Cadena decodificada: $sec")
+  //Compruebo la función listaCharsADistFrec
+  val comprueboLista1 = miArbol.listaCharsADistFrec(lista1)
+  val comprueboLista2 = miArbol.listaCharsADistFrec(lista2)
+  val comprueboLista3 = miArbol.listaCharsADistFrec(lista3)
+  val comprueboLista4 = miArbol.listaCharsADistFrec(lista4)
+  println(s"Lista Char A Dist Frec Lista1: $comprueboLista1")
+  println(s"Lista Char A Dist Frec Lista2: $comprueboLista2")
+  println(s"Lista Char A Dist Frec Lista3: $comprueboLista3")
+  println(s"Lista Char A Dist Frec Lista4: $comprueboLista4")
 
-    //Codifica la cadena
-    val cod = miArbol.codificar("SOS ESE OSO")
-    println(s"Cadena codificada: $cod")
+  //Compruebo la función distribFrecAListaHojas
+  val probarDistrib1 = miArbol.distribFrecAListaHojas(comprueboLista1)
+  val probarDistrib2 = miArbol.distribFrecAListaHojas(comprueboLista2)
+  val probarDistrib3 = miArbol.distribFrecAListaHojas(comprueboLista3)
+  val probarDistrib4 = miArbol.distribFrecAListaHojas(comprueboLista4)
+  println(s"Probar funcion Distrib Lista1: $probarDistrib1")
+  println(s"Probar funcion Distrib Lista2: $probarDistrib2")
+  println(s"Probar funcion Distrib Lista3: $probarDistrib3")
+  println(s"Probar funcion Distrib Lista4: $probarDistrib4")
 
-    //Crea una lista de prueba
-    val lista1 = List('a', 'b', 'c', 'd', 'e')
-    val lista2 = List()
-    val lista3 = List('a', 'b', 'a', 'c', 'a', 'a', 'd', 'e', 'b', 'c', 'a', 'b')
-    val lista4 = List('a', 'b')
-    println(s"Lista1: $lista1")
-    println(s"Lista2: $lista2")
-    println(s"Lista3: $lista3")
-    println(s"Lista4: $lista4")
+  //Compruebo creaRamaHuff
+  val hoja1 = HojaHuff('S', 4)
+  val hoja2 = HojaHuff('O', 3)
+  val hoja3 = HojaHuff('E', 2)
+  val ramaHuff1 = miArbol.creaRamaHuff(hoja1, hoja2)
+  val ramaHuff2 = miArbol.creaRamaHuff(ramaHuff1, hoja3)
+  println(s"Probar crear RamaHuff: $ramaHuff1")
+  println(s"Probar crear RamaHuff: $ramaHuff2")
 
-    //Compruebo la función listaCharsADistFrec
-    val comprueboLista1 = miArbol.listaCharsADistFrec(lista1)
-    val comprueboLista2 = miArbol.listaCharsADistFrec(lista2)
-    val comprueboLista3 = miArbol.listaCharsADistFrec(lista3)
-    val comprueboLista4 = miArbol.listaCharsADistFrec(lista4)
-    println(s"Lista Char A Dist Frec Lista1: $comprueboLista1")
-    println(s"Lista Char A Dist Frec Lista2: $comprueboLista2")
-    println(s"Lista Char A Dist Frec Lista3: $comprueboLista3")
-    println(s"Lista Char A Dist Frec Lista4: $comprueboLista4")
+  //Compruebo combinar
+  val combinarListaHojas1 = miArbol.combinar(probarDistrib1)
+  val combinarListaHojas2 = miArbol.combinar(probarDistrib2)
+  val combinarListaHojas3 = miArbol.combinar(probarDistrib3)
+  val combinarListaHojas4 = miArbol.combinar(probarDistrib4)
+  println(s"Combinar ListaHojas1: $combinarListaHojas1")
+  println(s"Combinar ListaHojas2: $combinarListaHojas2")
+  println(s"Combinar ListaHojas3: $combinarListaHojas3")
+  println(s"Combinar ListaHojas4: $combinarListaHojas4")
 
-    //Compruebo la función distribFrecAListaHojas
-    val probarDistrib1 = miArbol.distribFrecAListaHojas(comprueboLista1)
-    val probarDistrib2 = miArbol.distribFrecAListaHojas(comprueboLista2)
-    val probarDistrib3 = miArbol.distribFrecAListaHojas(comprueboLista3)
-    val probarDistrib4 = miArbol.distribFrecAListaHojas(comprueboLista4)
-    println(s"Probar funcion Distrib Lista1: $probarDistrib1")
-    println(s"Probar funcion Distrib Lista2: $probarDistrib2")
-    println(s"Probar funcion Distrib Lista3: $probarDistrib3")
-    println(s"Probar funcion Distrib Lista4: $probarDistrib4")
+  //Compruebo esListaSingleton
+  val listaSingleton1 = miArbol.esListaSingleton(combinarListaHojas1)
+  val listaSingleton2 = miArbol.esListaSingleton(combinarListaHojas2)
+  val listaSingleton3 = miArbol.esListaSingleton(combinarListaHojas3)
+  val listaSingleton4 = miArbol.esListaSingleton(combinarListaHojas4)
+  println(s"Es listaSingleton1: $listaSingleton1")
+  println(s"Es listaSingleton2: $listaSingleton2")
+  println(s"Es listaSingleton3: $listaSingleton3")
+  println(s"Es listaSingleton4: $listaSingleton4")
 
-    //Compruebo creaRamaHuff
-    val hoja1 = HojaHuff('S', 4)
-    val hoja2 = HojaHuff('O', 3)
-    val hoja3 = HojaHuff('E', 2)
-    val ramaHuff1 = miArbol.creaRamaHuff(hoja1, hoja2)
-    val ramaHuff2 = miArbol.creaRamaHuff(ramaHuff1, hoja3)
-    println(s"Probar crear RamaHuff: $ramaHuff1")
-    println(s"Probar crear RamaHuff: $ramaHuff2")
+  //Compruebo repetirHasta
+  val repetirLista1 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas1)
+  val repetirLista2 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas2)
+  val repetirLista3 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas3)
+  val repetirLista4 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas4)
+  println(s"repetirHasta en Lista1: $repetirLista1")
+  println(s"repetirHasta en Lista2: $repetirLista2")
+  println(s"repetirHasta en Lista3: $repetirLista3")
+  println(s"repetirHasta en Lista4: $repetirLista4")
+  val repetir1Singleton = miArbol.esListaSingleton(repetirLista1)
+  val repetir2Singleton = miArbol.esListaSingleton(repetirLista2)
+  val repetir3Singleton = miArbol.esListaSingleton(repetirLista3)
+  val repetir4Singleton = miArbol.esListaSingleton(repetirLista4)
+  println(s"Es listaSingleton1: $repetir1Singleton")
+  println(s"Es listaSingleton2: $repetir2Singleton")
+  println(s"Es listaSingleton3: $repetir3Singleton")
+  println(s"Es listaSingleton4: $repetir4Singleton")
 
-    //Compruebo combinar
-    val combinarListaHojas1 = miArbol.combinar(probarDistrib1)
-    val combinarListaHojas2 = miArbol.combinar(probarDistrib2)
-    val combinarListaHojas3 = miArbol.combinar(probarDistrib3)
-    val combinarListaHojas4 = miArbol.combinar(probarDistrib4)
-    println(s"Combinar ListaHojas1: $combinarListaHojas1")
-    println(s"Combinar ListaHojas2: $combinarListaHojas2")
-    println(s"Combinar ListaHojas3: $combinarListaHojas3")
-    println(s"Combinar ListaHojas4: $combinarListaHojas4")
+  //Crompruebo crearArbolHuffman
+  val crearMiArbol1 = ArbolHuffman("SOS ESE OSO")
+  val crearMiArbol2 = ArbolHuffman(" ")
+  val crearMiArbol3 = ArbolHuffman("Arbol Huffman")
+  println(s"Árbol1: SOS ESE OSO")
+  println(s"Árbol2: ' '")
+  println(s"Árbol3: Arbol Huffman")
+  println(s"Mi árbol1 creado: $crearMiArbol1")
+  println(s"Mi árbol2 creado: $crearMiArbol2")
+  println(s"Mi árbol3 creado: $crearMiArbol3")
 
-    //Compruebo esListaSingleton
-    val listaSingleton1 = miArbol.esListaSingleton(combinarListaHojas1)
-    val listaSingleton2 = miArbol.esListaSingleton(combinarListaHojas2)
-    val listaSingleton3 = miArbol.esListaSingleton(combinarListaHojas3)
-    val listaSingleton4 = miArbol.esListaSingleton(combinarListaHojas4)
-    println(s"Es listaSingleton1: $listaSingleton1")
-    println(s"Es listaSingleton2: $listaSingleton2")
-    println(s"Es listaSingleton3: $listaSingleton3")
-    println(s"Es listaSingleton4: $listaSingleton4")
+  //Compruebo deArbolATabla
+  val prueboArbol1 = miArbol.deArbolATabla(crearMiArbol1)
+  val prueboArbol2 = miArbol.deArbolATabla(crearMiArbol2)
+  val prueboArbol3 = miArbol.deArbolATabla(crearMiArbol3)
+  println(s"De Árbol1 a Tabla: $prueboArbol1")
+  println(s"De Árbol2 a Tabla: $prueboArbol2")
+  println(s"De Árbol3 a Tabla: $prueboArbol3")
 
-    //Compruebo repetirHasta
-    val repetirLista1 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas1)
-    val repetirLista2 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas2)
-    val repetirLista3 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas3)
-    val repetirLista4 = miArbol.repetirHasta(miArbol.combinar)(miArbol.esListaSingleton)(combinarListaHojas4)
-    println(s"repetirHasta en Lista1: $repetirLista1")
-    println(s"repetirHasta en Lista2: $repetirLista2")
-    println(s"repetirHasta en Lista3: $repetirLista3")
-    println(s"repetirHasta en Lista4: $repetirLista4")
-    val repetir1Singleton = miArbol.esListaSingleton(repetirLista1)
-    val repetir2Singleton = miArbol.esListaSingleton(repetirLista2)
-    val repetir3Singleton = miArbol.esListaSingleton(repetirLista3)
-    val repetir4Singleton = miArbol.esListaSingleton(repetirLista4)
-    println(s"Es listaSingleton1: $repetir1Singleton")
-    println(s"Es listaSingleton2: $repetir2Singleton")
-    println(s"Es listaSingleton3: $repetir3Singleton")
-    println(s"Es listaSingleton4: $repetir4Singleton")
+  //Compruebo codificarTabla
+  val pruebaCodificar1 = miArbol.codificarTabla(prueboArbol1)("SOS ESE OSO")
+  val pruebaCodificar2 = miArbol.codificarTabla(prueboArbol2)(" ")
+  val pruebaCodificar3 = miArbol.codificarTabla(prueboArbol3)("Arbol Huffman")
+  println(s"Compruebo codificarTabla con Árbol1: $pruebaCodificar1")
+  println(s"Compruebo codificarTabla con Árbol2: $pruebaCodificar2")
+  println(s"Compruebo codificarTabla con Árbol3: $pruebaCodificar3")
 
-    //Crompruebo crearArbolHuffman
-    val crearMiArbol1 = ArbolHuffman("SOS ESE OSO")
-    val crearMiArbol2 = ArbolHuffman(" ")
-    val crearMiArbol3 = ArbolHuffman("Arbol Huffman")
-    println(s"Árbol1: SOS ESE OSO")
-    println(s"Árbol2: ' '")
-    println(s"Árbol3: Arbol Huffman")
-    println(s"Mi árbol1 creado: $crearMiArbol1")
-    println(s"Mi árbol2 creado: $crearMiArbol2")
-    println(s"Mi árbol3 creado: $crearMiArbol3")
-
-    //Compruebo deArbolATabla
-    val prueboArbol1 = miArbol.deArbolATabla(crearMiArbol1)
-    val prueboArbol2 = miArbol.deArbolATabla(crearMiArbol2)
-    val prueboArbol3 = miArbol.deArbolATabla(crearMiArbol3)
-    println(s"De Árbol1 a Tabla: $prueboArbol1")
-    println(s"De Árbol2 a Tabla: $prueboArbol2")
-    println(s"De Árbol3 a Tabla: $prueboArbol3")
-  }
+  //Compruebo decodificarTabla
+  val prueboDecodificar1 = miArbol.decodificarTabla(prueboArbol1)(List(0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0))
+  val prueboDecodificar2 = miArbol.decodificarTabla(prueboArbol2)(List())
+  val prueboDecodificar3 = miArbol.decodificarTabla(prueboArbol3)(List(1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0))
+  println(s"Puebo decodificarTabla con Árbol1: $prueboDecodificar1")
+  println(s"Puebo decodificarTabla con Árbol2: $prueboDecodificar2")
+  println(s"Puebo decodificarTabla con Árbol3: $prueboDecodificar3")
 }

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fcc3d44b-a188-4b20-bf5a-0f229759e04e" name="Changes" comment="deArbolATabla" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Scala Worksheet" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2neTycQZadIWsLmXdWdIgNpb0sz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.miPrograma.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sanzm/OneDrive/Escritorio/UAH/1º Año/2º Cuatrimestre/Estructura de datos/el2-arboles-candela-y-daniela&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sanzm\OneDrive\Escritorio\UAH\2º Año\1º Cuatrimestre\Programación Declarativa\PArbolHuffman\src\main\scala" />
+      <recent name="C:\Users\sanzm\OneDrive\Escritorio\UAH\2º Año\1º Cuatrimestre\Programación Declarativa\PArbolHuffman\src\main\scala\arbol" />
+    </key>
+  </component>
+  <component name="ScalaProjectSettings">
+    <option name="migrateConfigurationsNotificationShown" value="true" />
+    <option name="scala3DisclaimerShown" value="true" />
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fcc3d44b-a188-4b20-bf5a-0f229759e04e" name="Changes" comment="" />
+      <created>1729332797667</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729332797667</updated>
+      <workItem from="1729332798804" duration="245000" />
+      <workItem from="1729519349051" duration="6669000" />
+      <workItem from="1729840007417" duration="767000" />
+      <workItem from="1729840794518" duration="5835000" />
+      <workItem from="1729854391467" duration="6394000" />
+      <workItem from="1730034781236" duration="1008000" />
+      <workItem from="1730050471737" duration="3281000" />
+      <workItem from="1730297396557" duration="2339000" />
+      <workItem from="1730299780592" duration="240000" />
+      <workItem from="1730307899895" duration="5004000" />
+      <workItem from="1730370040959" duration="4606000" />
+      <workItem from="1730461806169" duration="9637000" />
+      <workItem from="1730549373163" duration="1424000" />
+    </task>
+    <task id="LOCAL-00001" summary="Rama y nodo">
+      <option name="closed" value="true" />
+      <created>1729519910311</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1729519910311</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729521612720</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729521612720</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729523276502</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729523276502</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729526316477</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729526316477</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729840605568</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729840605568</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729843295867</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1729843295867</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729843814853</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1729843814853</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729845215797</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1729845215797</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729846458621</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729846458621</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729846641248</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1729846641248</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Clases">
+      <option name="closed" value="true" />
+      <created>1729855834454</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1729855834454</updated>
+    </task>
+    <task id="LOCAL-00012" summary="arbolHuffman">
+      <option name="closed" value="true" />
+      <created>1729857186471</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1729857186471</updated>
+    </task>
+    <task id="LOCAL-00013" summary="arbolHuffman">
+      <option name="closed" value="true" />
+      <created>1729859805389</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1729859805389</updated>
+    </task>
+    <task id="LOCAL-00014" summary="arbolHuffman">
+      <option name="closed" value="true" />
+      <created>1729860393554</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1729860393554</updated>
+    </task>
+    <task id="LOCAL-00015" summary="arbolHuffman">
+      <option name="closed" value="true" />
+      <created>1729860838075</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1729860838075</updated>
+    </task>
+    <task id="LOCAL-00016" summary="primeraParte">
+      <option name="closed" value="true" />
+      <created>1730053682733</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1730053682733</updated>
+    </task>
+    <task id="LOCAL-00017" summary="primeraParte">
+      <option name="closed" value="true" />
+      <created>1730298102219</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1730298102219</updated>
+    </task>
+    <task id="LOCAL-00018" summary="primeraParte">
+      <option name="closed" value="true" />
+      <created>1730299749352</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1730299749352</updated>
+    </task>
+    <task id="LOCAL-00019" summary="primeraParte">
+      <option name="closed" value="true" />
+      <created>1730309344555</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1730309344555</updated>
+    </task>
+    <task id="LOCAL-00020" summary="primeraParte">
+      <option name="closed" value="true" />
+      <created>1730309724026</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1730309724026</updated>
+    </task>
+    <task id="LOCAL-00021" summary="RamaHuff">
+      <option name="closed" value="true" />
+      <created>1730309983077</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1730309983077</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Booleana">
+      <option name="closed" value="true" />
+      <created>1730310051019</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1730310051019</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Booleana">
+      <option name="closed" value="true" />
+      <created>1730310364946</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1730310364946</updated>
+    </task>
+    <task id="LOCAL-00024" summary="repetir hasta">
+      <option name="closed" value="true" />
+      <created>1730311054022</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1730311054023</updated>
+    </task>
+    <task id="LOCAL-00025" summary="SegundaParte">
+      <option name="closed" value="true" />
+      <created>1730312604661</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1730312604661</updated>
+    </task>
+    <task id="LOCAL-00026" summary="SegundaParte">
+      <option name="closed" value="true" />
+      <created>1730312920332</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1730312920332</updated>
+    </task>
+    <task id="LOCAL-00027" summary="FaltaCombinarEstaHastaRepetirHasta">
+      <option name="closed" value="true" />
+      <created>1730373818903</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1730373818903</updated>
+    </task>
+    <task id="LOCAL-00028" summary="RevisarRepetirHasta">
+      <option name="closed" value="true" />
+      <created>1730375332612</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1730375332612</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Parte 2">
+      <option name="closed" value="true" />
+      <created>1730464948375</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1730464948375</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Comentado y pruebas">
+      <option name="closed" value="true" />
+      <created>1730473182600</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730473182600</updated>
+    </task>
+    <task id="LOCAL-00031" summary="deArbolATabla">
+      <option name="closed" value="true" />
+      <created>1730551424807</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1730551424807</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Rama y nodo" />
+    <MESSAGE value="Clases" />
+    <MESSAGE value="arbolHuffman" />
+    <MESSAGE value="primeraParte" />
+    <MESSAGE value="RamaHuff" />
+    <MESSAGE value="Booleana" />
+    <MESSAGE value="repetir hasta" />
+    <MESSAGE value="SegundaParte" />
+    <MESSAGE value="FaltaCombinarEstaHastaRepetirHasta" />
+    <MESSAGE value="RevisarRepetirHasta" />
+    <MESSAGE value="Parte 2" />
+    <MESSAGE value="Comentado y pruebas" />
+    <MESSAGE value="deArbolATabla" />
+    <option name="LAST_COMMIT_MESSAGE" value="deArbolATabla" />
+  </component>
+</project>

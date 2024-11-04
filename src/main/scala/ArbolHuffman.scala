@@ -109,11 +109,13 @@ abstract class ArbolHuffman {
     codificarCadena(cadena.toList)
 
   def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
+    @tailrec
     def decodificarCaracter(tabla: TablaCodigos)(bitsDados: List[Bit]): Char = tabla match 
       case Nil => throw new NoSuchElementException("La tabla está vacía")// Si la tabla está vacía, no hay correspondencia
       case (c, bits) :: tail if bitsDados == bits => c // Si los bits coinciden, devuelve el carácter
       case _ :: tail => decodificarCaracter(tail)(bitsDados) // Busca en el resto de la tabla
 
+    @tailrec
     def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit], acc: String): String = bits match
       case Nil => acc // Si no quedan bits devuelve el acumulador
       case bitsDados :: resto => 

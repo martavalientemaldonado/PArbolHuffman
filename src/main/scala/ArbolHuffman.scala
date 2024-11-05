@@ -129,7 +129,7 @@ def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
   @tailrec
   def decodificarCaracter(tabla: TablaCodigos)(bitsDados: List[Bit]): Char = tabla match
     case Nil => ' '// Si la tabla está vacía, no hay correspondencia
-    case (c, bits) :: tail if bitsDados == bits => c // Si los bits coinciden, devuelve el carácter
+    case (c, b) :: tail if bitsDados.startsWith(b) => c // Si los bits coinciden, devuelve el carácter
     case _ :: tail => decodificarCaracter(tail)(bitsDados)// Busca en el resto de la tabla
 
   @tailrec

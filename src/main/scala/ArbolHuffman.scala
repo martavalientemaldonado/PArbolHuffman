@@ -133,7 +133,7 @@ def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
 
   def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit], acc: String): String = bits match
     case Nil => acc // Si no quedan bits devuelve el acumulador
-    case bitsDados :: resto =>
+    case head :: resto =>
       val (caracter, numBits) = decodificarCaracter(tabla)(bitsDados)
       decodificarCadena(tabla)(resto, acc + caracter)
 
@@ -141,9 +141,7 @@ def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
 
 object ArbolHuffman {
   def apply(cadena: String): ArbolHuffman =
-    new ArbolHuffman {
-      override def crearArbolHuffman(cadena: String): ArbolHuffman = crearArbolHuffman(cadena)
-    } crearArbolHuffman (cadena)
+    crearArbolHuffman(cadena)
 }
 
 object miPrograma extends App {

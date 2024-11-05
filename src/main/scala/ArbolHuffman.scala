@@ -118,7 +118,7 @@ def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
     case _ :: tail => codificarCaracter(tail)(char) // Si no lo encuentra que siga
 
   def codificarCadena(cadena: List[Char]): List[Bit] = cadena match // Para toda la cadena
-    case Nil => List.empty[Bit] // Si la cadena está vacía devuelve lista vacía de bits3e
+    case Nil => List.empty[Bit] // Si la cadena está vacía devuelve lista vacía de bits
     case char :: tail =>
       val bits = codificarCaracter(tabla)(char) // Obtiene los bits del carácter
       bits ++ codificarCadena(tail) // Concatena los bits y sigue con la parte de la cadena que queda
@@ -131,13 +131,13 @@ def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
     case (c, bits) :: tail if bitsDados == bits => c // Si los bits coinciden, devuelve el carácter
     case _ :: tail => decodificarCaracter(tail)(bitsDados) // Busca en el resto de la tabla
 
-  def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit], acc: String): String = bits match
+  def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit])(acc: String): String = bits match
     case Nil => acc // Si no quedan bits devuelve el acumulador
     case head :: resto =>
-      val (caracter, numBits) = decodificarCaracter(tabla)(bitsDados)
-      decodificarCadena(tabla)(resto, acc + caracter)
+      val caracter = decodificarCaracter(tabla)(bitsDados)
+      decodificarCadena(tabla)(resto)(acc + caracter)
 
-  decodificarCadena(tabla)(bitsDados, " ")
+  decodificarCadena(tabla)(bitsDados)(" ")
 
 object ArbolHuffman {
   def apply(cadena: String): ArbolHuffman =

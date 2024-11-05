@@ -126,7 +126,6 @@ def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
   codificarCadena(cadena.toList)
 
 def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
-  println(s"Tabla de códigos: $tabla")
   @tailrec
   def decodificarCaracter(tabla: TablaCodigos)(bitsDados: List[Bit]): Char = tabla match
     case Nil => ' '// Si la tabla está vacía, no hay correspondencia
@@ -265,24 +264,6 @@ object miPrograma extends App {
   println(s"De Árbol2 a Tabla: $prueboArbol2")
   println(s"De Árbol3 a Tabla: $prueboArbol3")
 
-// Crear el árbol de Huffman
-  val crearmiArbol = ArbolHuffman("SOS ESE OSO")
-
-// Generar la tabla de códigos a partir del árbol
-  val tablaCodigos = deArbolATabla(miArbol)
-
-// Imprimir la tabla de códigos antes de codificar
-  println(s"Tabla de códigos antes de codificar: $tablaCodigos")
-
-// Codificar una cadena
-  val cadenaCodificada = codificarTabla(tablaCodigos)("SOS ESE OSO")
-
-// Imprimir la tabla de códigos después de codificar
-  println(s"Tabla de códigos después de codificar: $tablaCodigos")
-
-// Imprimir la cadena codificada
-  println(s"Cadena codificada: $cadenaCodificada")
-
   //Compruebo codificarTabla
   val pruebaCodificar1 = codificarTabla(prueboArbol1)("SOS ESE OSO")
   val pruebaCodificar2 = codificarTabla(prueboArbol2)(" ")
@@ -298,4 +279,12 @@ object miPrograma extends App {
   println(s"Puebo decodificarTabla con Árbol1: $prueboDecodificar1")
   println(s"Puebo decodificarTabla con Árbol2: $prueboDecodificar2")
   println(s"Puebo decodificarTabla con Árbol3: $prueboDecodificar3")
+
+  // Codificar una cadena
+  val cadenaCodificada = codificarTabla(prueboArbol1)("SOS ESE OSO")
+
+  val cadenaDecodificada = decodificarTabla(prueboArbol1)(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
+
+  // Imprimir la cadena codificada
+  println(s"Cadena decodificada: $cadenaDecodificada")
 }

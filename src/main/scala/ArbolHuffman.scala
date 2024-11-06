@@ -29,7 +29,7 @@ abstract class ArbolHuffman {
 
   def codificar(cadena: String): List[Bit] =
     @tailrec
-    def codificarAux(listaChar: List[Char], acc: List[Bit]): List[Bit] = listaChar match
+    def codificarAux(listaChar: List[Char], acc: List[Bit]):  List[Bit] = listaChar match
       case Nil => acc //si la lista está vacía devuelve acc
       case char :: restoCadena => codificarAux(restoCadena, acc ++ codificarCaracteres(char, this, List.empty[Bit])) //si la lista contiene al menos un carácter, se concatena acc con la función
 
@@ -41,7 +41,7 @@ abstract class ArbolHuffman {
     case RamaHuff(nodoIzq, nodoDch) =>
       if (nodoIzq.contieneCaracter(char)) codificarCaracteres(char, nodoIzq, lista :+ 0) //si el caracter se encuentra en el subarbol izquierdo, llama a la funcion y añade 0 a la lista
       else codificarCaracteres(char, nodoDch, lista :+ 1) //si el caracter no se encuentra en el subarbol izquierdo, llama a la funcion en el nodo derecho y añade 1 a la lista
-    case _ => throw new IllegalArgumentException("Caracter no encontrado") //si el caracter no se encuentra, lanza una excepcion
+    case _ => throw new IllegalArgumentException("Caracter no encontrado")  //si el caracter no se encuentra, lanza una excepcion
 }
 
 case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
@@ -63,7 +63,7 @@ def listaCharsADistFrec(listaChar: List[Char]): List[(Char, Int)] = //recibe una
   @tailrec
   def listaCharsADistFrecAux(listaChar: List[Char], frecuencia: List[(Char, Int)]): List[(Char, Int)] = listaChar match //recibe la lista de caracteres que aun no se han procesado y una lista de tuplas que almacena las frecuencias acumuladas
     case Nil => frecuencia //si la lista está vacía, devuelve frecuencia
-    case head :: tail => listaCharsADistFrecAux(tail, actualizarFrecuencia(head, frecuencia)) //si la lista tiene al menos un elemento, llama a la funcion con el primer elemento y la lista de frecuencias actuales
+    case head :: tail => listaCharsADistFrecAux(tail, actualizarFrecuencia(head, frecuencia))  //si la lista tiene al menos un elemento, llama a la funcion con el primer elemento y la lista de frecuencias actuales
 
   //Funcion para actualizar la frecuencia de un caracter
   def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]): List[(Char, Int)] = frecuencia match

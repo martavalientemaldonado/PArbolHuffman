@@ -91,6 +91,7 @@ def esListaSingleton(lista: List[ArbolHuffman]): Boolean = lista match
   case _ :: Nil => true //si la lista solo tiene un elemento devuelve true
   case _ => false //en caso contrario, devuelve false
 
+@tailrec
 def repetirHasta(combinar: List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton: List[ArbolHuffman] => Boolean)(listaHojas: List[ArbolHuffman]): List[ArbolHuffman] =
   if listaHojas == Nil then listaHojas
   else if esListaSingleton(listaHojas) then listaHojas //si tiene un elemento devuelve la lista
@@ -124,20 +125,20 @@ def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
       bits ++ codificarCadena(tail) // Concatena los bits y sigue con la parte de la cadena que queda
 
   codificarCadena(cadena.toList)
-
 def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
   @tailrec
-  def decodificarCaracter(tabla: TablaCodigos)(bitsDados: List[Bit]): Char = tabla match
-    case Nil => ' '// Si la tabla está vacía, no hay correspondencia
-    case (c, b) :: tail if bitsDados.startsWith(b) => c // Si los bits coinciden, devuelve el carácter
-    case _ :: tail => decodificarCaracter(tail)(bitsDados)// Busca en el resto de la tabla
+  def decodificarCaracter(tabla: TablaCodigos)(bits: List[Bit]): (Char, List[Bit]) = tabla match
+    case Nil => (' ', bits) // Si la tabla está vacía no hay correspondencia
+    case (c, b) :: tail if bits.startsWith(b) => (c, bits.drop(b.length)) // Si los bits de la tabla coinciden tabla, devuelve el carácter y los bits restantes porque el .drop elimina los restantes y asi solo quedan los que no se han encontrado
+    case _ :: tail => decodificarCaracter(tail)(bits) // Busca en el resto de la tabla
+
 
   @tailrec
   def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit])(acc: String): String = bits match
     case Nil => acc // Si no quedan bits devuelve el acumulador
-    case head :: resto =>
-      val caracter = decodificarCaracter(tabla)(bitsDados)
-      decodificarCadena(tabla)(resto)(acc + caracter)
+    case _ =>
+      val (caracter, bitsRestantes) = decodificarCaracter(tabla)(bits)
+      decodificarCadena(tabla)(bitsRestantes)(acc + caracter)
 
   decodificarCadena(tabla)(bitsDados)(" ")
 

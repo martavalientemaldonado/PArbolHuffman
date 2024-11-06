@@ -52,6 +52,7 @@ case class RamaHuff(nodoIzq: ArbolHuffman, nodoDch: ArbolHuffman) extends ArbolH
 def cadenaAListaChars(cadena : String) : List[Char] = cadena.toList
 
 def listaCharsACadena(listaCar : List[Char]) : String =
+  @tailrec
   def listaCharsACadenaAux(listaCar : List[Char], acc : String) : String = listaCar match
     case Nil => acc
     case head :: tail => listaCharsACadenaAux(listaCar, acc + head)
@@ -91,6 +92,7 @@ def esListaSingleton(lista: List[ArbolHuffman]): Boolean = lista match
   case _ :: Nil => true //si la lista solo tiene un elemento devuelve true
   case _ => false //en caso contrario, devuelve false
 
+@tailrec
 def repetirHasta(combinar: List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton: List[ArbolHuffman] => Boolean)(listaHojas: List[ArbolHuffman]): List[ArbolHuffman] =
   if listaHojas == Nil then listaHojas
   else if esListaSingleton(listaHojas) then listaHojas //si tiene un elemento devuelve la lista

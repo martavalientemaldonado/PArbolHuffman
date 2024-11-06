@@ -91,7 +91,6 @@ def esListaSingleton(lista: List[ArbolHuffman]): Boolean = lista match
   case _ :: Nil => true //si la lista solo tiene un elemento devuelve true
   case _ => false //en caso contrario, devuelve false
 
-@tailrec
 def repetirHasta(combinar: List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton: List[ArbolHuffman] => Boolean)(listaHojas: List[ArbolHuffman]): List[ArbolHuffman] =
   if listaHojas == Nil then listaHojas
   else if esListaSingleton(listaHojas) then listaHojas //si tiene un elemento devuelve la lista
@@ -125,13 +124,13 @@ def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
       bits ++ codificarCadena(tail) // Concatena los bits y sigue con la parte de la cadena que queda
 
   codificarCadena(cadena.toList)
+
 def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
   @tailrec
   def decodificarCaracter(tabla: TablaCodigos)(bits: List[Bit]): (Char, List[Bit]) = tabla match
     case Nil => (' ', bits) // Si la tabla está vacía no hay correspondencia
     case (c, b) :: tail if bits.startsWith(b) => (c, bits.drop(b.length)) // Si los bits de la tabla coinciden  con los que piden devuelve el carácter y los bits restantes porque el .drop elimina los que coinciden y asi solo quedan los que no se han encontrado
     case _ :: tail => decodificarCaracter(tail)(bits) // Busca en el resto de la tabla
-
 
   @tailrec
   def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit])(acc: String): String = bits match
@@ -280,12 +279,4 @@ object miPrograma extends App {
   println(s"Puebo decodificarTabla con Árbol1: $prueboDecodificar1")
   println(s"Puebo decodificarTabla con Árbol2: $prueboDecodificar2")
   println(s"Puebo decodificarTabla con Árbol3: $prueboDecodificar3")
-
-  // Codificar una cadena
-  val cadenaCodificada = codificarTabla(prueboArbol1)("SOS ESE OSO")
-
-  val cadenaDecodificada = decodificarTabla(prueboArbol1)(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
-
-  // Imprimir la cadena codificada
-  println(s"Cadena decodificada: $cadenaDecodificada")
 }

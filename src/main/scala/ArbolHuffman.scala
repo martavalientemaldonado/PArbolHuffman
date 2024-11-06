@@ -19,11 +19,11 @@ abstract class ArbolHuffman {
   def decodificar(bits: List[Bit]): String =
     @tailrec
     def decodificarAux(arbol: ArbolHuffman, bits: List[Bit], acc: String): String = (arbol, bits) match
-      case (HojaHuff(char, weight), Nil) => acc + char // hoja donde no hay más bits y añade el char al acc
-      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char) //llega a una hoja pero quedan bits, agrega el char al acc y reinicia la decodificacion
+      case (HojaHuff(char, weight), Nil) => acc + char //  hoja donde no hay más bits y añade el char al acc
+      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char)  //llega a una hoja pero quedan bits, agrega el char al acc y reinicia la decodificacion
       case (RamaHuff(nodoIzq, nodoDch), 0 :: restoBits) => decodificarAux(nodoIzq, restoBits, acc) //si el primer bit es 0 continua por la rama izquierda y llama a la funcion recursivamente
-      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc) //si el primer bit es 1 continua por la rama derecha y llama a la funcion recursivamente
-      case _ => acc //detiene la decodificacion y devuelve el acc
+      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc)  //si el primer bit es 1 continua por la rama derecha y llama a la funcion recursivamente
+      case _ => acc  //detiene la decodificacion y devuelve el acc
 
     decodificarAux(this, bits, " ")
 
@@ -40,8 +40,8 @@ abstract class ArbolHuffman {
     case HojaHuff(caracter, weight) if caracter == char => lista //si nos encontramos en una hoja y contiene el caracter buscado devuelve la lista
     case RamaHuff(nodoIzq, nodoDch) =>
       if (nodoIzq.contieneCaracter(char)) codificarCaracteres(char, nodoIzq, lista :+ 0) //si el caracter se encuentra en el subarbol izquierdo, llama a la funcion y añade 0 a la lista
-      else codificarCaracteres(char, nodoDch, lista :+ 1) //si el caracter no se encuentra en el subarbol izquierdo, llama a la funcion en el nodo derecho y añade 1 a la lista
-    case _ => throw new IllegalArgumentException("Caracter no encontrado")  //si el caracter no se encuentra, lanza una excepcion
+      else codificarCaracteres(char, nodoDch, lista :+ 1)  //si el caracter no se encuentra en el subarbol izquierdo, llama a la funcion en el nodo derecho y añade 1 a la lista
+    case _ => throw new IllegalArgumentException("Caracter no encontrado") //si el caracter no se encuentra, lanza una excepcion
 }
 
 case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
@@ -68,8 +68,8 @@ def listaCharsADistFrec(listaChar: List[Char]): List[(Char, Int)] = //recibe una
   //Funcion para actualizar la frecuencia de un caracter
   def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]): List[(Char, Int)] = frecuencia match
     case Nil => List((char, 1)) //si la lista está vacía, este es el primer carácter. Crea una lista con la nueva tupla
-    case (c, f) :: tail if c == char => (c, f + 1) :: tail //si la frecuencia tiene al menos una tupla y el carácter actual ya está, incrementa la frecuencia
-    case head :: tail => head :: actualizarFrecuencia(char, tail) //si el caracter no coincide con el primero, llama recursivamente a la funcion en el resto de la lista
+    case (c, f) :: tail if c == char => (c, f + 1) :: tail  //si la frecuencia tiene al menos una tupla y el carácter actual ya está, incrementa la frecuencia
+    case head :: tail => head :: actualizarFrecuencia(char, tail)  //si el caracter no coincide con el primero, llama recursivamente a la funcion en el resto de la lista
 
   listaCharsADistFrecAux(listaChar, List.empty[(Char, Int)])
 
@@ -106,7 +106,7 @@ def crearArbolHuffman(cadena: String): ArbolHuffman =
 def deArbolATabla(arbol: ArbolHuffman): TablaCodigos =
   def deArbolATablaAux(arbol: ArbolHuffman, bits: List[Bit]): TablaCodigos = arbol match
     case HojaHuff(char, weight) => List((char, bits)) // Si es hoja crea la lista de tuplas
-    case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1) // Lo hace otra vez con nodo izquierdo añadiendo bit=0 y con la dcha con bit=1
+    case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1)  // Lo hace otra vez con nodo izquierdo añadiendo bit=0 y con la dcha con bit=1
   
   deArbolATablaAux(arbol, List.empty[Bit])
 

@@ -37,11 +37,13 @@ abstract class ArbolHuffman {
 
 
   def codificarCaracteres(char: Char, arbol: ArbolHuffman, lista: List[Bit]): List[Bit] = arbol match
-    case HojaHuff(caracter, weight) if caracter == char => lista //si nos encontramos en una hoja y contiene el caracter buscado devuelve la lista
+    case HojaHuff(caracter, _) if caracter == char => lista //si nos encontramos en una hoja y contiene el caracter buscado devuelve la lista
     case RamaHuff(nodoIzq, nodoDch) =>
       if (nodoIzq.contieneCaracter(char)) codificarCaracteres(char, nodoIzq, lista :+ 0) //si el caracter se encuentra en el subarbol izquierdo, llama a la funcion y añade 0 a la lista
       else codificarCaracteres(char, nodoDch, lista :+ 1)  //si el caracter no se encuentra en el subarbol izquierdo, llama a la funcion en el nodo derecho y añade 1 a la lista
-    case _ => throw new IllegalArgumentException("Caracter no encontrado") //si el caracter no se encuentra, lanza una excepcion
+    case _ => 
+      println(s"ADVERTENCIA: el caracter '$char' no se ha encontrado en el árbol, por tanto, será omitido") //si el caracter no se encuentra, lanza un mensaje y devuelve la lista vacía
+      List.empty[Bit]
 }
 
 case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
@@ -131,7 +133,7 @@ def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
 def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
   @tailrec
   def decodificarCaracter(tabla: TablaCodigos)(bits: List[Bit]): (Char, List[Bit]) = tabla match
-    case Nil => (' ', bits) // Si la tabla está vacía no hay correspondencia
+    case Nil => ('\u0000', bits) // Si la tabla está vacía no hay correspondencia
     case (c, b) :: tail if bits.startsWith(b) => (c, bits.drop(b.length)) // Si los bits de la tabla coinciden  con los que piden devuelve el carácter y los bits restantes porque el .drop elimina los que coinciden y asi solo quedan los que no se han encontrado
     case _ :: tail => decodificarCaracter(tail)(bits) // Busca en el resto de la tabla
 
@@ -168,8 +170,8 @@ object miPrograma extends App {
   println(s"Caracteres: $caracter")
 
   //Decodifica la lista
-  val sec = miArbol.decodificar(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
-  println(s"Cadena decodificada: $sec")
+  val dec = miArbol.decodificar(List(0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0))
+  println(s"Cadena decodificada: $dec")
 
   //Codifica la cadena
   val cod = miArbol.codificar("SOS ESE OSO")
@@ -288,6 +290,10 @@ object miPrograma extends App {
   println(s"Puebo decodificarTabla con Árbol3: $prueboDecodificar3")
 
   //Compruebo camino mas largo
-  val prueboCaminomasLargo1 = CaminoMasLargo(prueboArbol1)
-  println(s"Puebo camino mas largo con Árbol1: $prueboCaminomasLargo1")
+  val prueboCaminomasLargo1 = CaminoMasLargo(crearMiArbol1)
+  val prueboCaminomasLargo2 = CaminoMasLargo(crearMiArbol2)
+  val prueboCaminomasLargo3 = CaminoMasLargo(crearMiArbol3)
+  println(s"Pruebo camino mas largo con Árbol1: $prueboCaminomasLargo1")
+  println(s"Pruebo camino mas largo con Árbol2: $prueboCaminomasLargo2")
+  println(s"Pruebo camino mas largo con Árbol3: $prueboCaminomasLargo3")
 }

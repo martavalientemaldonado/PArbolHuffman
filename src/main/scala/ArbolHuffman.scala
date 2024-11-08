@@ -9,7 +9,7 @@ abstract class ArbolHuffman {
     case HojaHuff(char, weight) => weight //Peso de la hoja
 
   def caracteres: List[Char] = this match
-    case RamaHuff(nodoIzq, nodoDch) => nodoIzq.caracteres ++ nodoDch.caracteres // Concatema ambos nodos 
+    case RamaHuff(nodoIzq, nodoDch) => nodoIzq.caracteres ++ nodoDch.caracteres // Concatema ambos nodos
     case HojaHuff(char, weight) => List(char) //Ya es el caso hoja
 
   def contieneCaracter(char: Char): Boolean = this match
@@ -19,13 +19,13 @@ abstract class ArbolHuffman {
   def decodificar(bits: List[Bit]): String =
     @tailrec
     def decodificarAux(arbol: ArbolHuffman, bits: List[Bit], acc: String): String = (arbol, bits) match
-      case (HojaHuff(char, weight), Nil) => acc + char //  hoja donde no hay más bits y añade el char al acc
-      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char)  //llega a una hoja pero quedan bits, agrega el char al acc y reinicia la decodificacion
-      case (RamaHuff(nodoIzq, nodoDch), 0 :: restoBits) => decodificarAux(nodoIzq, restoBits, acc) //si el primer bit es 0 continua por la rama izquierda y llama a la funcion recursivamente
-      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc)  //si el primer bit es 1 continua por la rama derecha y llama a la funcion recursivamente
-      case _ => acc  //detiene la decodificacion y devuelve el acc
+      case (HojaHuff(char, weight), Nil) => acc + char
+      case (HojaHuff(char, weight), _) => decodificarAux(this, bits, acc + char)
+      case (RamaHuff(nodoIzq, nodoDch), 0 :: restoBits) => decodificarAux(nodoIzq, restoBits, acc)
+      case (RamaHuff(nodoIzq, nodoDch), 1 :: restoBits) => decodificarAux(nodoDch, restoBits, acc)
+      case _ => acc
 
-    decodificarAux(this, bits, " ")
+    decodificarAux(this, bits, "")
 
   def codificar(cadena: String): List[Bit] =
     @tailrec
@@ -49,15 +49,15 @@ case class HojaHuff(char: Char, weight: Int) extends ArbolHuffman
 case class RamaHuff(nodoIzq: ArbolHuffman, nodoDch: ArbolHuffman) extends ArbolHuffman
 
 
-def cadenaAListaChars(cadena : String) : List[Char] = cadena.toList 
+def cadenaAListaChars(cadena : String) : List[Char] = cadena.toList
 
 def listaCharsACadena(listaCar : List[Char]) : String =
   @tailrec
   def listaCharsACadenaAux(listaCar : List[Char], acc : String) : String = listaCar match
-    case Nil => acc 
-    case head :: tail => listaCharsACadenaAux(listaCar, acc + head) 
+    case Nil => acc
+    case head :: tail => listaCharsACadenaAux(tail, acc + head)
 
-  listaCharsACadenaAux(listaCar, " ") 
+  listaCharsACadenaAux(listaCar, "")
 
 def listaCharsADistFrec(listaChar: List[Char]): List[(Char, Int)] = //Recibe una lista de caracteres y devuelve una lista de tuplas
 
@@ -67,7 +67,7 @@ def listaCharsADistFrec(listaChar: List[Char]): List[(Char, Int)] = //Recibe una
     case head :: tail => listaCharsADistFrecAux(tail, actualizarFrecuencia(head, frecuencia))  //si la lista tiene al menos un elemento, llama a la funcion con el primer elemento y la lista de frecuencias actuales
 
   //frecuencia de un caracter
-  def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]): List[(Char, Int)] = frecuencia match 
+  def actualizarFrecuencia(char: Char, frecuencia: List[(Char, Int)]): List[(Char, Int)] = frecuencia match
     case Nil => List((char, 1)) //si la lista está vacía, este es el primer carácter. Crea una lista con la nueva tupla
     case (c, f) :: tail if c == char => (c, f + 1) :: tail    //si la frecuencia tiene al menos una tupla y el carácter actual ya está, incrementa la frecuencia
     case head :: tail => head :: actualizarFrecuencia(char, tail)   //si el caracter no coincide con el primero, llama recursivamente a la funcion en el resto de la lista
@@ -94,8 +94,8 @@ def esListaSingleton(lista: List[ArbolHuffman]): Boolean = lista match
 
 @tailrec
 def repetirHasta(combinar: List[ArbolHuffman] => List[ArbolHuffman])(esListaSingleton: List[ArbolHuffman] => Boolean)(listaHojas: List[ArbolHuffman]): List[ArbolHuffman] =
-  if listaHojas == Nil then listaHojas 
-  else if esListaSingleton(listaHojas) then listaHojas //si tiene un elemento devuelve la lista    
+  if listaHojas == Nil then listaHojas
+  else if esListaSingleton(listaHojas) then listaHojas //si tiene un elemento devuelve la lista
   else repetirHasta(combinar)(esListaSingleton)(combinar(listaHojas)) //si tiene más de un elemento, llama a la función hasta que tenga uno
 
 def crearArbolHuffman(cadena: String): ArbolHuffman =
@@ -105,7 +105,7 @@ def crearArbolHuffman(cadena: String): ArbolHuffman =
   repetirHasta(combinar)(esListaSingleton)(listaTuplasOrdenada).head //construye el arbol con las tuplas ordenadas por peso
   
 // Convertir arbol codificacion en tabla de codificacion
-def deArbolATabla(arbol: ArbolHuffman): TablaCodigos = 
+def deArbolATabla(arbol: ArbolHuffman): TablaCodigos =
   def deArbolATablaAux(arbol: ArbolHuffman, bits: List[Bit]): TablaCodigos = arbol match
     case HojaHuff(char, weight) => List((char, bits)) // Si es hoja crea la lista de tuplas
     case RamaHuff(nodoIzq, nodoDch) => deArbolATablaAux(nodoIzq, bits :+ 0) ++ deArbolATablaAux(nodoDch, bits :+ 1)  // Lo con nodo izquierdo añadiendo bit=0 y con la dcha con bit=1
@@ -113,28 +113,28 @@ def deArbolATabla(arbol: ArbolHuffman): TablaCodigos =
   deArbolATablaAux(arbol, List.empty[Bit])
 
 def codificarTabla(tabla: TablaCodigos)(cadena: String): List[Bit] =
-  
+
   @tailrec
   def codificarCaracter(tabla: TablaCodigos)(char: Char): List[Bit] = tabla match // Para un caracter
     case Nil => List.empty[Bit] // Devuelve lista vacia de bits
     case (c, bits) :: tail if c == char => bits // Si encuentra ese caracter que devuelva los bits de la tupla
     case _ :: tail => codificarCaracter(tail)(char) // Si no lo encuentra sigue buscando
- 
+
   def codificarCadena(cadena: List[Char]): List[Bit] = cadena match // Para toda la cadena
-    case Nil => List.empty[Bit] // Si la cadena está vacía devuelve lista vacía de bits  
+    case Nil => List.empty[Bit] // Si la cadena está vacía devuelve lista vacía de bits
     case char :: tail =>
       val bits = codificarCaracter(tabla)(char) // Obtiene los bits del carácter
       bits ++ codificarCadena(tail) // Concatena los bits y sigue con la parte de la cadena que queda
 
   codificarCadena(cadena.toList)
- 
+
 def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
   @tailrec
   def decodificarCaracter(tabla: TablaCodigos)(bits: List[Bit]): (Char, List[Bit]) = tabla match
     case Nil => (' ', bits) // Si la tabla está vacía no hay correspondencia
     case (c, b) :: tail if bits.startsWith(b) => (c, bits.drop(b.length)) // Si los bits de la tabla coinciden  con los que piden devuelve el carácter y los bits restantes porque el .drop elimina los que coinciden y asi solo quedan los que no se han encontrado
     case _ :: tail => decodificarCaracter(tail)(bits) // Busca en el resto de la tabla
-  
+
   @tailrec
   def decodificarCadena(tabla: TablaCodigos)(bits: List[Bit])(acc: String): String = bits match
     case Nil => acc // Si no quedan bits devuelve el acumulador
@@ -142,7 +142,11 @@ def decodificarTabla(tabla: TablaCodigos)(bitsDados: List[Bit]): String =
       val (caracter, bitsRestantes) = decodificarCaracter(tabla)(bits)
       decodificarCadena(tabla)(bitsRestantes)(acc + caracter)
 
-  decodificarCadena(tabla)(bitsDados)(" ")
+  decodificarCadena(tabla)(bitsDados)("")
+  
+def CaminoMasLargo(arbol: ArbolHuffman): Int = arbol match
+  case HojaHuff(_, _) => 1
+  case RamaHuff(nodoIzq, nodoDch) => 1 + Math.max(CaminoMasLargo(nodoIzq), CaminoMasLargo(nodoDch))
 
 object ArbolHuffman {
   def apply(cadena: String): ArbolHuffman =
@@ -282,4 +286,8 @@ object miPrograma extends App {
   println(s"Puebo decodificarTabla con Árbol1: $prueboDecodificar1")
   println(s"Puebo decodificarTabla con Árbol2: $prueboDecodificar2")
   println(s"Puebo decodificarTabla con Árbol3: $prueboDecodificar3")
+
+  //Compruebo camino mas largo
+  val prueboCaminomasLargo1 = CaminoMasLargo(prueboArbol1)
+  println(s"Puebo camino mas largo con Árbol1: $prueboCaminomasLargo1")
 }
